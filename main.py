@@ -5,13 +5,6 @@ import os
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix = commands.when_mentioned_or("!"), intents = intents, help_command = None)
 
-async def on_command_error(ctx, error):
-  if isinstance(error, commands.CommandNotFound):
-    print(f"Command run by {ctx.author.id} not found!\nCommand: {ctx.author.message}")
-
-  else:
-    print(f"An error has occur when running {ctx.author.message}: {error}") 
-
 class Dropdown(discord.ui.Select):
   def __init__(self, cog_names):
     for cog_name in cog_names:
@@ -54,11 +47,7 @@ async def command_help(ctx):
   cog_names = [cog_name for cog_name, cog in client.cogs.items() if cog.get_commands()]
 
   if not cog_names:
-    errorem = discord.Embed(
-      title = "We have an issue!",
-      description = "It appears that I don't have any commands!\n*Or TPK fucked up the code*",
-      color = 0xFF0000)
-    await ctx.send(embed = embed)
+    await ctx.send("It appears I dont have any commands, *or TPK fucked up the code*")
 
   helpembed = discord.Embed(
     title = "Help Menu",
@@ -67,6 +56,14 @@ async def command_help(ctx):
   )
 
   await ctx.send(embed = helpembed, view = DropView(cog_names))
+
+
+async def on_command_error(ctx, error):
+  if isinstance(error, commands.CommandNotFound):
+    print(f"Command run by {ctx.author.id} not found!\nCommand: {ctx.author.message}")
+
+  else:
+    print(f"An error has occur when running {ctx.author.message}: {error}") 
 
 @client.event
 async def on_ready():
