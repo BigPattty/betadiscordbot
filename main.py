@@ -34,7 +34,7 @@ class Dropdown(discord.ui.Select):
 
 class DropView(discord.ui.View):
   def __init__(self, cog_names, *, timeout = 180):
-    super().__init(timeout = timeout)
+    super().__init__(timeout = timeout)
     self.cog_names = cog_names
     self.add_selmenu()
     
